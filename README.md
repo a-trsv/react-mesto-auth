@@ -30,5 +30,5 @@
 * Реализовать удаление карточки через попап
 
 ## Демо
-[Проект mesto-react](https://a-trsv.github.io/mesto-react/)
+[Проект mesto-react](https://a-trsv.github.io/react-mesto-auth/)
 
