@@ -2,7 +2,7 @@
   "name": "react-mesto-auth",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://a-trsv.github.io/react-mesto-auth",
+  "homepage": "https://a-trsv.github.io/react-mesto-auth/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && ln -s index.html build/404.html",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",

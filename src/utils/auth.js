@@ -2,6 +2,7 @@ class Auth {
     constructor(options) {
         this._address = options.address
     }
+
     _checkServerResponse(res) {
         if (res.ok) {
             return res.json()
@@ -9,6 +10,7 @@ class Auth {
         // Если происходит ошибка, отклоняем промис
         return Promise.reject(`${res.status}`)
     }
+
     register(password, email) {
         return fetch(`${this._address}/signup`, {
             method: 'POST',

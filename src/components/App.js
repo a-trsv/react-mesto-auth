@@ -10,7 +10,7 @@ import ConfirmCardDelete from './ConfirmCardDelete'
 import api from '../utils/api'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import ProtectedRoute from './ProtectedRoute'
-import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
+import { Route, Switch, useHistory } from 'react-router-dom'
 import Register from './Register'
 import Login from './Login'
 import InfoToolTip from './InfoTooltip'
@@ -30,12 +30,12 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState({})
     const [currentUser, setCurrentUser] = React.useState({})
     const [cards, setCards] = React.useState([])
-    {/* Устанавливаем стейт для 12 спринта */ }
+    {/* Устанавливаем стейты для 12 спринта */ }
     const [loggedIn, setLoggedIn] = React.useState(false)
     const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false)
     const [email, setEmail] = React.useState('')
     const [authMessage, setAuthMessage] = React.useState({ img: '', text: '' })
-    const history = useHistory();
+    const history = useHistory()
 
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getCards()])
@@ -51,11 +51,11 @@ function App() {
 
     function handleCardLike(card) {
         // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i._id === currentUser._id)
         // Отправляем запрос в API и получаем обновлённые данные карточки
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
             })
             .catch((err) => {
                 console.log(err)
@@ -76,7 +76,6 @@ function App() {
         api.patchUserInfo(userData)
             .then((userData) => {
                 setCurrentUser(userData)
-                // console.log(userData)
                 closeAllPopups()
             })
             .catch((err) => {
@@ -87,8 +86,8 @@ function App() {
     function handleAddPlaceSubmit(apiData) {
         api.postCard(apiData)
             .then((newCard) => {
-                setCards([newCard, ...cards]);
-                closeAllPopups();
+                setCards([newCard, ...cards])
+                closeAllPopups()
             })
             .catch((err) => {
                 console.log(err)
@@ -99,7 +98,6 @@ function App() {
         api.patchUserAvatar(userData)
             .then((userData) => {
                 setCurrentUser(userData)
-                // console.log(userData)
                 closeAllPopups()
             })
             .catch((err) => {
@@ -127,6 +125,7 @@ function App() {
     function handleInfoToolTipOpen() {
         setInfoToolTipOpen(true)
     }
+    
     function handleInfoToolTipAuthMessage({ img, text }) {
         setAuthMessage({ img: img, text: text })
     }
@@ -136,13 +135,13 @@ function App() {
             .then((res) => {
                 if (res.status === 201) {
                     handleInfoToolTipAuthMessage({ img: successImg, text: 'Вы успешно зарегестрировались!' })
-                    handleInfoToolTipOpen();
-                    setTimeout(history.push, 3500, '/sign-in');
+                    handleInfoToolTipOpen()
+                    setTimeout(history.push, 2500, '/sign-in')
                     setTimeout(closeAllPopups, 2500)
                 } else {
-                    handleInfoToolTipAuthMessage({ img: notSuccessImg, text: 'Что-то пошло не так! Попробуйте еще раз!' })
+                    handleInfoToolTipAuthMessage({ img: notSuccessImg, text: 'Что-то пошло не так! Попробуйте еще раз.' })
                     handleInfoToolTipOpen()
-                    setTimeout(closeAllPopups, 2500);
+                    setTimeout(closeAllPopups, 2500)
                 }
             })
             .catch((err) => {
@@ -158,8 +157,8 @@ function App() {
                         setEmail(data.data.email)
                     })
                     .catch(err => console.log(err))
-                setLoggedIn(true);
-                history.push('/');
+                setLoggedIn(true)
+                history.push('/')
             })
             .catch((err) => {
                 console.log(err)
@@ -167,9 +166,9 @@ function App() {
     }
 
     React.useEffect(() => {
-        const jwt = localStorage.getItem('jwt')
-        if (jwt) {
-            auth.checkToken(jwt)
+        const token = localStorage.getItem('jwt')
+        if (token) {
+            auth.checkToken(token)
                 .then((data) => {
                     setLoggedIn(true)
                     setEmail(data.data.email)
@@ -224,18 +223,8 @@ function App() {
                         onAddPlace={handleAddPlaceClick}
                         onEditAvatar={handleEditAvatarClick}
                         onCardClick={handleCardClick}
-
                     />
                 </Switch>
-                {/* <Main
-                    cards={cards}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                    onEditProfile={handleEditProfileClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onCardClick={handleCardClick}
-                /> */}
                 <Footer />
 
                 <EditProfilePopup
