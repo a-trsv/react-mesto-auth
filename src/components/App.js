@@ -130,7 +130,7 @@ function App() {
         setAuthMessage({ img: img, text: text })
     }
 
-    function registration(password, email) {
+    function handleRegister(password, email) {
         auth.register(password, email)
             .then((res) => {
                 if (res.status === 201) {
@@ -149,7 +149,7 @@ function App() {
             })
     }
 
-    function login(password, email) {
+    function handleLogin(password, email) {
         auth.authorization(password, email)
             .then((data) => {
                 auth.checkToken(data)
@@ -202,13 +202,13 @@ function App() {
                     {/* Регистрация нового пользователя */}
                     <Route path="/sign-up">
                         <Register
-                            onRegister={registration}
+                            onRegister={handleRegister}
                         />
                     </Route>
                     {/* Авторизация существующего пользователя */}
                     <Route path="/sign-in">
                         <Login
-                            onLogin={login}
+                            onLogin={handleLogin}
                         />
                     </Route>
                     {/* Отрисовываем сайт для авторизованного пользователя */}
