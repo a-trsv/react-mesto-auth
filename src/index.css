@@ -4,6 +4,9 @@
 @import url(./blocks/page/__content/page__content.css);
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__nav/header__nav.css);
+@import url(./blocks/header/__link/header__link.css);
+@import url(./blocks/header/__email/header__email.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__photo-section/profile__photo-section.css);
 @import url(./blocks/profile/__container/profile__container.css);
@@ -31,6 +34,9 @@
 @import url(./blocks/popup/popup.css);
 @import url(./blocks/popup/_active/popup_active.css);
 @import url(./blocks/popup/_type/popup_type_photo.css);
+@import url(./blocks/popup/_type/popup_type_info.css);
+@import url(./blocks/popup/__image/_type/popup__image_type_info.css);
+@import url(./blocks/popup/__title/_type/popup__title_type_info.css);
 @import url(./blocks/popup/__image/popup__image.css);
 @import url(./blocks/popup/__container/popup__container.css);
 @import url(./blocks/popup/__container/_type/popup__container_type_photo.css);
@@ -44,114 +50,8 @@
 @import url(./blocks/form/__input/_type/form__input_type_error.css);
 @import url(./blocks/form/__save-button/form__save-button.css);
 @import url(./blocks/form/__save-button/_type/form__save-button_type_disabled.css);
-
-
-
-.sign-section {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-}
-
-.sign-form__title {
-    margin: 60px auto 50px auto;
-    color: #FFFF;
-}
-
-.sign-form__input {
-    color: #CCCCCC;
-    background-color: #000;
-    border-bottom: 2px solid rgba(204,204,204, 0.8);
-    padding: 0 0 13px 0;
-}
-
-.sign-form__input:last-of-type {
-    margin-bottom: 216px;
-}
-
-.sign-form__submit {
-    margin: 0 auto 15px auto;
-    background: #FFFFFF;
-    color: #000000;
-    padding-bottom: 14px;
-}
-
-.sign-form__link {
-    display: flex;
-    flex-direction: column;
-    align-self: center;
-    font-family: 'Inter', Arial, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 17px;
-    text-decoration: none;
-}
-
-.sign-form__link:hover {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.sign-form__link:visited {
-    color: #FFFFFF;
-}
-
-.header__nav{
-    padding: 4px 0 4px 0;
-    margin: 0;
-}
-
-.header__link {
-    font-family: 'Inter', Arial, sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 22px;
-    text-decoration: none;
-    color: #FFFFFF;
-    margin: 0;
-    padding: 0;
-}
-
-.header__link:hover {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.header__link:visited {
-    color: #FFFFFF;
-}
-
-.header__email {
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 22px;
-    text-decoration: none;
-    color: #FFFFFF;
-}
-
-.header__email:hover {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.header__email:visited {
-    color: #FFFFFF;
-}
-
-.header__exit {
-    font-weight: normal;
-    font-size: 18px;
-    line-height: 22px;
-    color: #A9A9A9;
-}
-
-.header__exit:hover {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.header__exit:visited {
-    color: #A9A9A9;
-}
+@import url(./blocks/sign-section/sign-section.css);
+@import url(./blocks/sign-form/__title/sign-form__title.css);
+@import url(./blocks/sign-form/__input/sign-form__input.css);
+@import url(./blocks/sign-form/__submit/sign-form__submit.css);
+@import url(./blocks/sign-form/__link/sign-form__link.css);

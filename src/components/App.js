@@ -10,9 +10,14 @@ import ConfirmCardDelete from './ConfirmCardDelete'
 import api from '../utils/api'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
 import ProtectedRoute from './ProtectedRoute'
-import { Route, Switch } from 'react-router-dom'
-import Register  from './Register'
+import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
+import Register from './Register'
 import Login from './Login'
+import InfoToolTip from './InfoTooltip'
+//Иконки для попапа
+import successImg from '../images/success.jpeg'
+import notSuccessImg from '../images/not-success.jpeg'
+import auth from '../utils/auth'
 
 function App() {
 
@@ -27,6 +32,10 @@ function App() {
     const [cards, setCards] = React.useState([])
     {/* Устанавливаем стейт для 12 спринта */ }
     const [loggedIn, setLoggedIn] = React.useState(false)
+    const [isInfoToolTipOpen, setInfoToolTipOpen] = React.useState(false)
+    const [email, setEmail] = React.useState('')
+    const [authMessage, setAuthMessage] = React.useState({ img: '', text: '' })
+    const history = useHistory();
 
     React.useEffect(() => {
         Promise.all([api.getUserInfo(), api.getCards()])
@@ -115,26 +124,93 @@ function App() {
         setImagePopupOpen(true)
     }
 
+    function handleInfoToolTipOpen() {
+        setInfoToolTipOpen(true)
+    }
+    function handleInfoToolTipAuthMessage({ img, text }) {
+        setAuthMessage({ img: img, text: text })
+    }
+
+    function registration(password, email) {
+        auth.register(password, email)
+            .then((res) => {
+                if (res.status === 201) {
+                    handleInfoToolTipAuthMessage({ img: successImg, text: 'Вы успешно зарегестрировались!' })
+                    handleInfoToolTipOpen();
+                    setTimeout(history.push, 3500, '/sign-in');
+                    setTimeout(closeAllPopups, 2500)
+                } else {
+                    handleInfoToolTipAuthMessage({ img: notSuccessImg, text: 'Что-то пошло не так! Попробуйте еще раз!' })
+                    handleInfoToolTipOpen()
+                    setTimeout(closeAllPopups, 2500);
+                }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    function authorize(password, email) {
+        auth.authorization(password, email)
+            .then((data) => {
+                auth.checkToken(data)
+                    .then((data) => {
+                        setEmail(data.data.email)
+                    })
+                    .catch(err => console.log(err))
+                setLoggedIn(true);
+                history.push('/');
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    React.useEffect(() => {
+        const jwt = localStorage.getItem('jwt')
+        if (jwt) {
+            auth.checkToken(jwt)
+                .then((data) => {
+                    setLoggedIn(true)
+                    setEmail(data.data.email)
+                    history.push('/')
+                })
+                .catch(err => console.log(err))
+        }
+    }, [history])
+
+    function handleSignOut() {
+        setLoggedIn(false)
+        localStorage.removeItem('jwt')
+        setEmail('')
+        history.push('/sign-in')
+    }
+
     function closeAllPopups() {
         setEditAvatarPopupOpen(false)
         setEditProfilePopupOpen(false)
         setAddPlacePopupOpen(false)
         setImagePopupOpen(false)
         setSelectedCard({})
+        setInfoToolTipOpen(false)
     }
 
     return (
         <div className="page__content">
             <CurrentUserContext.Provider value={currentUser}>
-                <Header />
+                <Header loggedIn={loggedIn} email={email} onSignOut={handleSignOut} />
                 <Switch>
                     {/* Регистрация нового пользователя */}
                     <Route path="/sign-up">
-                        <Register />
+                        <Register
+                            onRegister={registration}
+                        />
                     </Route>
                     {/* Авторизация существующего пользователя */}
                     <Route path="/sign-in">
-                        <Login />
+                        <Login
+                            onLogin={authorize}
+                        />
                     </Route>
                     {/* Отрисовываем сайт для авторизованного пользователя */}
                     <ProtectedRoute
@@ -189,6 +265,11 @@ function App() {
                 <ImagePopup
                     card={selectedCard}
                     isOpen={isImagePopupOpen}
+                    onClose={closeAllPopups}
+                />
+                <InfoToolTip
+                    isOpen={isInfoToolTipOpen}
+                    authMessage={authMessage}
                     onClose={closeAllPopups}
                 />
             </CurrentUserContext.Provider>
