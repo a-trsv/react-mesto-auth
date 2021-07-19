@@ -149,7 +149,7 @@ function App() {
             })
     }
 
-    function authorize(password, email) {
+    function login(password, email) {
         auth.authorization(password, email)
             .then((data) => {
                 auth.checkToken(data)
@@ -208,7 +208,7 @@ function App() {
                     {/* Авторизация существующего пользователя */}
                     <Route path="/sign-in">
                         <Login
-                            onLogin={authorize}
+                            onLogin={login}
                         />
                     </Route>
                     {/* Отрисовываем сайт для авторизованного пользователя */}
