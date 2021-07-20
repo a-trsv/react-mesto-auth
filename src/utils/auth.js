@@ -25,6 +25,7 @@ class Auth {
                 }
             )
         })
+        .then(res => this._checkServerResponse(res))
     }
 
     authorization(password, email) {

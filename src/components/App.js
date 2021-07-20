@@ -125,26 +125,23 @@ function App() {
     function handleInfoToolTipOpen() {
         setInfoToolTipOpen(true)
     }
-    
+
     function handleInfoToolTipAuthMessage({ img, text }) {
         setAuthMessage({ img: img, text: text })
     }
 
     function handleRegister(password, email) {
         auth.register(password, email)
-            .then((res) => {
-                if (res.status === 201) {
-                    handleInfoToolTipAuthMessage({ img: successImg, text: 'Вы успешно зарегестрировались!' })
-                    handleInfoToolTipOpen()
-                    setTimeout(history.push, 2500, '/sign-in')
-                    setTimeout(closeAllPopups, 2500)
-                } else {
-                    handleInfoToolTipAuthMessage({ img: notSuccessImg, text: 'Что-то пошло не так! Попробуйте еще раз.' })
-                    handleInfoToolTipOpen()
-                    setTimeout(closeAllPopups, 2500)
-                }
+            .then(() => {
+                handleInfoToolTipAuthMessage({ img: successImg, text: 'Вы успешно зарегестрировались!' })
+                handleInfoToolTipOpen()
+                setTimeout(history.push, 2500, '/sign-in')
+                setTimeout(closeAllPopups, 2500)
             })
             .catch((err) => {
+                handleInfoToolTipAuthMessage({ img: notSuccessImg, text: 'Что-то пошло не так! Попробуйте еще раз.' })
+                handleInfoToolTipOpen()
+                setTimeout(closeAllPopups, 2500)
                 console.log(err)
             })
     }
